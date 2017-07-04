@@ -1,0 +1,118 @@
+﻿<!doctype html>
+<!-- Инверсия введенных строк -->
+<html>
+  <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+   <script type="text/javascript" src="OrderByAlphabet.js"></script>
+   <script type="text/javascript">
+    function SortData() {
+    var Forvard = true;
+    var AlphabetPriority = false;
+    if (document.getElementById("SortOrderForvard").checked != true) {
+    	Forvard = false;
+    }
+        if (document.getElementById("AlphabetPriority").checked == true) {
+    	AlphabetPriority = true;
+    }
+  	document.getElementById("outputtext").value = SortText(document.getElementById("inputtext").value,Forvard,AlphabetPriority);
+  	}
+  	function InsLetter(let) {
+		var textarea =document.getElementById('inputtext'); 
+		var selectionStart = textarea.selectionStart;
+		var newText = textarea.value.substring (0, textarea.selectionStart) + let + textarea.value.substring (textarea.selectionEnd);
+		textarea.value = newText;
+		textarea.focus();
+		textarea.selectionStart = selectionStart + 1;
+		textarea.selectionEnd = textarea.selectionStart;
+  	}
+  	function InLang(lang){
+  	    document.getElementById("English").disabled = "";
+  	    document.getElementById("Albanian").disabled = "";
+  	    document.getElementById("Russian").disabled = "";
+  	    document.getElementById(lang).disabled = "disabled";
+  	   //switch (lang) = "English" 
+  	   var rowlang = {"English":2,"Albanian":3,"Russian":4};
+
+  	   var multlangobj=
+  	   [
+  	    ['AlbanianAlphabet','innerHTML','Albanian alphabet','Alfabeti shqip', 'Албанский алфавит'],
+  	    ['text_for_input','innerHTML','Text for input:','Shkruani një vijë të tekstit:', 'Введите строки текста:'],
+  	    ['inputtext','placeholder','print text...','teksti shtypura...', 'наберите текст'],
+  	    ['SortButton','value','Sort by Albanian alphabet','Filtro sipas alfabetit','Отсортировать по албанскому алфавиту'],
+  	    ['SortOrderForvard','nextElementSibling.childNodes[0].data','Forvard order','Mënyrë të drejtpërdrejtë sorting','Прямой порядок сортировки'],
+  	    ['SortOrderReverse','nextElementSibling.childNodes[0].data','Revers order','Mënyrë të kundërt lloj','Обратный порядок сортировки'],
+  	    ['AlphabetPriority','nextElementSibling.childNodes[0].data','Set the priority of the Albanian alphabet characters on other characters',
+  	                                                                'Vendosni prioritetin e karaktereve alfabetit shqiptar në karaktere të tjera',
+  	                                                                'Установить приоритет символов албанского алфавита над другими символами'],
+  	    ['text_for_output','innerHTML','Result:','Rezultat:','Результат:'],
+  	   ];
+  	   for (i = 0; i< multlangobj.length ; i++) {
+  	      pob = multlangobj[i];
+  	      objnm = pob[0];
+  	      objpr = pob[1];
+  	      objlangtxt = pob[rowlang[lang]];
+  	      switch (objpr) {
+  	        case 'innerHTML':
+  	      		document.getElementById(objnm).innerHTML = objlangtxt;
+  	      		break;
+  	        case 'placeholder' : 
+  	      		document.getElementById(objnm).placeholder = objlangtxt;
+  	      		break;
+  	        case 'value' : 
+  	      		document.getElementById(objnm).value = objlangtxt;  	      	
+  	      		break;
+  	      	case 'nextElementSibling.childNodes[0].data' : 
+  	      		document.getElementById(objnm).nextElementSibling.childNodes[0].data = objlangtxt;  	      	
+  	      		break;
+  	      	
+  	      }
+  	   }
+  	   
+  	}
+  </script>
+  </head>
+  <body>
+    <div>
+      <!-- Сюда вводим переключатели языка -->
+      <button name = "English" value = "English" id = "English" style="vertical-align: middle" onclick = "InLang('English')" disabled>
+      <img src="United-Kingdom.png" style="vertical-align: top" /> English</button>
+      <button name = "Albanian" id = "Albanian" value = "Albanian" style="vertical-align: middle" onclick = "InLang('Albanian')">
+      <img src="Albania.png" style="vertical-align: top"/> Shqip</button>
+      <button name = "Russian" id = "Russian"value = "Russian" style="vertical-align: middle" onclick = "InLang('Russian')">
+      <img src="Russia.png" style="vertical-align: top "/> Русский</button>
+      <br><br>
+      <label name = "AlbanianAlphabet" id = "AlbanianAlphabet">Albanian alphabet</label>
+      <br><br>
+      <label name = "Alphabet" id = "Alphabet">
+      A a, B b, C c, Ç ç, D d, Dh dh, E e, Ë ë, F f, G g, Gj gj, H h,<br>
+      I i, J j, K k, L l, Ll ll, M m, N n, Nj nj, O o, P p, Q q, R r,<br> 
+      Rr rr, S s, Sh sh, T t, Th th, U u, V v, X x, Xh xh, Y y, Z z, Zh zh
+      </label>
+      <br><br>
+      <label name = "text_for_input" id = "text_for_input">Text for input:</label>
+      <br>
+      <!-- Сюда вводим текст -->
+      <textarea cols="80" name="inputtext" id ="inputtext" placeholder="print text" rows = "10" wrap="hard"></textarea>
+      <!-- Сюда вводим кнопки албанских символов -->
+      <input type="button"  value=" Ç " onclick="InsLetter('Ç')" />
+      <input type="button"  value=" ç " onclick="InsLetter('ç')" />
+      <input type="button"  value=" Ë " onclick="InsLetter('Ë')" />
+      <input type="button"  value=" ë " onclick="InsLetter('ë')" />
+      <br>
+      <!-- Сюда нажимаем для вывода результата -->
+      <input type = "button" name = "SortButton" id ="SortButton" value ="Sort by Albanian alphabet" onclick ="SortData()"/>
+      <!-- Здесь указываем прямой или обратный результат сортировки -->
+      <br>
+      <input type = "radio" name = "SortOrder" id ="SortOrderForvard" value ="Forvard" checked><label for="SortOrderForvard">Forvard order</label></input>
+      <input type = "radio" name = "SortOrder" id ="SortOrderReverse" value ="Reverse"><label for="SortOrderReverse">Revers order</input>
+      <!-- Здесь указываем установку приоритета символов алфавита -->
+      <br>
+      <input type = "checkbox" name = "AlphabetPriority" id ="AlphabetPriority"><label for="AlphabetPriority">Set the priority of the Albanian alphabet characters on other characters</label></input>
+      <br>
+	  <label name = "text_for_output" id = "text_for_output">Result:</label>
+      <br>
+      <!-- Сюда выводим результат -->
+      <textarea cols="80" name="outputtext" id = "outputtext" rows = "10" wrap="hard" disabled></textarea>
+    </div>
+  </body>
+</html>
